@@ -6,22 +6,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
- * Copyright 2018 HexDecimal
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-   */
-
 namespace StoreLib.Services
 {
     public class DisplayCatalogHandler
@@ -54,7 +38,7 @@ namespace StoreLib.Services
         /// Returns an IList of Uris containing the direct download links for the product's apps and dependacies. (if it has any). 
         /// </summary>
         /// <returns>IList of Direct File URLs</returns>
-        public async Task<IList<Uri>> GetPackagesForProduct()
+        public async Task<IList<Uri>> GetPackagesForProductAsync()
         {
             string xml = await FE3Handler.SyncUpdatesAsync(ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData.WuCategoryId);
             IList<string> RevisionIDs;

@@ -50,16 +50,6 @@ namespace StoreLib.Tests
                 IList<string> UpdateIDs = new List<string>();
                 FE3Handler.ProcessUpdateIDs(xml, out RevisionIds, out PackageNames, out UpdateIDs);
                 IList<Uri> FileUris = await FE3Handler.GetFileUrlsAsync(UpdateIDs, RevisionIds);
-                /*
-                if(FileUris.Count > 0)
-                {
-                    TestContext.WriteLine($"FileURI Count: {FileUris.Count}");
-                    foreach (Uri fileuri in FileUris)
-                    {
-                        TestContext.WriteLine($"GetPackagesForNetflix: {PackageNames[FileUris.IndexOf(fileuri)]} : {fileuri}");
-                    }
-                }
-               */
             }
             else
             {

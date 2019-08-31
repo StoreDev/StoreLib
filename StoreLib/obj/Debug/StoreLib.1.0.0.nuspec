@@ -3,8 +3,8 @@
   <metadata>
     <id>StoreLib</id>
     <version>1.0.0</version>
-    <authors>HexDecimal</authors>
-    <owners>HexDecimal</owners>
+    <authors>TitleOS</authors>
+    <owners>TitleOS</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
     <dependencies>
@@ -14,6 +14,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\Hex\source\repos\StoreLib\StoreLib\bin\Debug\netstandard2.0\StoreLib.dll" target="lib\netstandard2.0\StoreLib.dll" />
+    <file src="C:\Users\Darkl\Source\Repos\StoreLib\StoreLib\bin\Debug\netstandard2.0\StoreLib.dll" target="lib\netstandard2.0\StoreLib.dll" />
   </files>
 </package>

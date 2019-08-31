@@ -47,19 +47,6 @@ namespace StoreLib.Tests
 
         }
         [TestMethod]
-        public async Task QueryNetflixUsingContentId()
-        {
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
-            await dcathandler.QueryDCATAsync("2B7C6B9F-FC0D-41D2-8FD2-8DFB658EC16F", DataContracts.IdentiferType.ContentID);
-            TestContext.WriteLine(dcathandler.ProductListing.Product.ProductId);
-            if (!dcathandler.IsFound)
-            {
-                TestContext.WriteLine(dcathandler.ProductListing.Product.ProductId);
-                Assert.Fail(dcathandler.Error.Message);
-            }
-
-        }
-        [TestMethod]
         public async Task QueryNetflixUsingPackageFamilyName()
         {
             DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
@@ -81,18 +68,6 @@ namespace StoreLib.Tests
             if (!dcathandler.IsFound)
             {
                 Assert.Fail(dcathandler.Error.Message);
-            }
-
-        }
-
-        [TestMethod]
-        public async Task SearchDesktop()
-        {
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
-            DCatSearch search = await dcathandler.SearchDCATAsync("Netflix", DeviceFamily.Desktop);
-            if(search.Results[0].Products[0].Title != "Netflix")
-            {
-                Assert.Fail($"Netflix was not found. Result Count: {search.TotalResultCount}");
             }
 
         }
@@ -122,23 +97,6 @@ namespace StoreLib.Tests
                 }
             }
         }
-        /*
-        [TestMethod(), Timeout(TestTimeout.Infinite)] //This can take quite a while to complete, the test will automatically fail with TaskCanceledException after 2 minutes if we don't set our own timeout. 
-        public async Task QueryLargeListProducts()
-        {
-            foreach(string line in File.ReadLines("products.txt"))
-            {
-                DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.IdentiferType.ProductID, DataContracts.DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
-                await dcathandler.QueryDCATAsync(line);
-                if (!dcathandler.IsFound)
-                {
-                    Assert.Inconclusive($"Failed to find ID: {line}, Error: {dcathandler.Error.Message}");
-                }
-
-            }
-
-        }
-        */
         [TestMethod]
         public async Task RandomLocale()
         {
@@ -182,7 +140,7 @@ namespace StoreLib.Tests
         {
             DisplayCatalogHandler dcathandler = DisplayCatalogHandler.ProductionConfig();
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
-            foreach(Uri download in await dcathandler.GetPackagesForProduct())
+            foreach(Uri download in await dcathandler.GetPackagesForProductAsync())
             {
                 TestContext.WriteLine(download.ToString());
             }

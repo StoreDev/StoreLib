@@ -1,33 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Hex\\Source\\Repos\\TitleOS\\StoreLib\\StoreLib\\StoreLib.csproj": {}
+    "C:\\Users\\Darkl\\Source\\Repos\\StoreLib\\StoreLib\\StoreLib.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Hex\\Source\\Repos\\TitleOS\\StoreLib\\StoreLib\\StoreLib.csproj": {
+    "C:\\Users\\Darkl\\Source\\Repos\\StoreLib\\StoreLib\\StoreLib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hex\\Source\\Repos\\TitleOS\\StoreLib\\StoreLib\\StoreLib.csproj",
+        "projectUniqueName": "C:\\Users\\Darkl\\Source\\Repos\\StoreLib\\StoreLib\\StoreLib.csproj",
         "projectName": "StoreLib",
-        "projectPath": "C:\\Users\\Hex\\Source\\Repos\\TitleOS\\StoreLib\\StoreLib\\StoreLib.csproj",
-        "packagesPath": "C:\\Users\\Hex\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hex\\Source\\Repos\\TitleOS\\StoreLib\\StoreLib\\obj\\",
+        "projectPath": "C:\\Users\\Darkl\\Source\\Repos\\StoreLib\\StoreLib\\StoreLib.csproj",
+        "packagesPath": "C:\\Users\\Darkl\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Darkl\\Source\\Repos\\StoreLib\\StoreLib\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\ProgramData\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Hex\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Darkl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\Hex\\Packages": {},
+          "\\\\WIN-D7VHKKAI89B\\NugetPackages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -56,10 +54,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100-preview8-013656\\RuntimeIdentifierGraph.json"
         }
       }
     }
