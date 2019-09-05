@@ -4,7 +4,7 @@ Storelib is a DotNet core library that provides APIs to interact with the variou
 
 ## Usage:
 
-First, you must initization of the DisplayCatalogHandler with the settings of your choice. During initization the handler can be set to us any market, locale, or endpoint.
+First, you must initialize the DisplayCatalogHandler with the settings of your choice. During which, the handler can be set to use any market, locale, or endpoint.
 ```csharp
 DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
 ```
@@ -15,7 +15,7 @@ From there, the handler can query a product listing.
 await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
 ```
 
-Once you have a product queried, and ensure it was found using `dcathandler.IsFound`, then you can fetch all appx, msixvcs, xvcs and eappxs for the listing using `GetPackagesForProductAsync();`
+Once you have a product queried, and ensure it was found using `dcathandler.IsFound`, then you can fetch all .appx, .eappx, .xvc and .msixvc packages respectively for the listing using `GetPackagesForProductAsync();`
 
 ### Example:
 Fetches and prints the FE3 download links for Netflix's app packages.
