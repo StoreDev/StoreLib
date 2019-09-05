@@ -26,7 +26,7 @@ foreach(Uri download in await dcathandler.GetPackagesForProductAsync())
 {
   Console.WriteLine(download.ToString());
 }
-
+```
 
 ### Tips:
 
