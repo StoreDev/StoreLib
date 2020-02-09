@@ -1,4 +1,4 @@
-﻿using StoreLib.DataContracts;
+﻿
 using StoreLib.Models;
 using System;
 using System.Collections.Generic;
@@ -277,6 +277,22 @@ namespace StoreLib.Services
             {
                 throw new Exception($"Failed to search DisplayCatalog: {DeviceFamily.ToString()} Status Code: {httpResponse.StatusCode} Returned Data: {await httpResponse.Content.ReadAsStringAsync()}");
             }
+        }
+        
+        public async Task<List<Addon>> GetAddonsForProductAsync()
+        {
+            if(this.IsFound == false)
+            {
+                throw new Exception("Can not search for addons on a non-existant product.");
+            }
+            List<Addon> ProductAddons = new List<Addon>();
+            List<string> ProductIDs = new List<string>();
+            throw new NotImplementedException();
+            foreach(dynamic AddonData in this.ProductListing.Product.MarketProperties[0].RelatedProducts)
+            {
+                
+            }
+
         }
         
         /// <summary>

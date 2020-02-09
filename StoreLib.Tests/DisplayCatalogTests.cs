@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using StoreLib;
 using StoreLib.Services;
 using StoreLib.Models;
-using StoreLib.DataContracts;
 using System.IO;
 
 namespace StoreLib.Tests
@@ -19,7 +18,7 @@ namespace StoreLib.Tests
         [TestMethod]
         public async Task QueryNetflix()
         {
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
+            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
             if (dcathandler.IsFound)
             {
@@ -49,8 +48,8 @@ namespace StoreLib.Tests
         [TestMethod]
         public async Task QueryNetflixUsingPackageFamilyName()
         {
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
-            await dcathandler.QueryDCATAsync("Microsoft.SoDTest_8wekyb3d8bbwe", DataContracts.IdentiferType.PackageFamilyName);
+            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
+            await dcathandler.QueryDCATAsync("Microsoft.SoDTest_8wekyb3d8bbwe", IdentiferType.PackageFamilyName);
             if (!dcathandler.IsFound)
             {
                 Assert.Fail(dcathandler.Error.Message);
@@ -59,7 +58,7 @@ namespace StoreLib.Tests
         [TestMethod]
         public async Task QueryNetflixInt()
         {
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Int, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
+            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Int, new Locale(Market.US, Lang.en, true));
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
             if (dcathandler.IsFound)
             {
@@ -86,11 +85,11 @@ namespace StoreLib.Tests
         [TestMethod]
         public async Task GetSuperHeroArtForNetflix()
         {
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
+            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
             if (dcathandler.IsFound)
             {
-                Uri SuperHeroArt = StoreLib.Utilities.ImageHelpers.GetImageUri(DataContracts.ImagePurpose.SuperHeroArt, dcathandler.ProductListing);
+                Uri SuperHeroArt = StoreLib.Utilities.ImageHelpers.GetImageUri(ImagePurpose.SuperHeroArt, dcathandler.ProductListing);
                 if (SuperHeroArt == null)
                 {
                     Assert.Fail("Failed to get SuperHeroArt for Netflix!");
@@ -106,7 +105,7 @@ namespace StoreLib.Tests
             Market RandomMarket = (Market)Markets.GetValue(ran.Next(Markets.Length));
             Lang RandomLang = (Lang)Langs.GetValue(ran.Next(Langs.Length));
             TestContext.WriteLine($"RandomLocale: Testing with {RandomMarket}-{RandomLang}");
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new Locale(RandomMarket, RandomLang, true));
+            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(RandomMarket, RandomLang, true));
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
             if (dcathandler.IsFound)
             {
@@ -120,11 +119,11 @@ namespace StoreLib.Tests
         [TestMethod]
         public async Task CacheImage()
         {
-            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
+            DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
             if (dcathandler.IsFound)
             {
-                Uri SuperHeroArt = StoreLib.Utilities.ImageHelpers.GetImageUri(DataContracts.ImagePurpose.SuperHeroArt, dcathandler.ProductListing);
+                Uri SuperHeroArt = StoreLib.Utilities.ImageHelpers.GetImageUri(ImagePurpose.SuperHeroArt, dcathandler.ProductListing);
                 byte[] imagetest = await Utilities.ImageHelpers.CacheImageAsync(SuperHeroArt, Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), false); //The ExecutingAssembly path is only being used for this unit test, in an actual program, you would want to save to the temp. 
                 if(imagetest == null)
                 {
@@ -147,6 +146,6 @@ namespace StoreLib.Tests
 
         }
 
-       
+
     }
 }

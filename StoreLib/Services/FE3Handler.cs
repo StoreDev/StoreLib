@@ -1,4 +1,5 @@
-﻿using StoreLib.DataContracts;
+﻿
+using StoreLib.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -63,7 +64,7 @@ namespace StoreLib.Services
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(Xml);
-            UpdateIDs = new List<string>();
+            UpdateIDs = new List<string>(); 
             PackageNames = new List<string>();
             RevisionIDs = new List<string>();
             XmlNodeList nodes = doc.GetElementsByTagName("SecuredFragment"); //We need to find updateIDs that actually have a File URL. Only nodes that have SecuredFragment will have an UpdateID that connects to a url. 

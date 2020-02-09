@@ -19,12 +19,12 @@ namespace StoreLib.Utilities
         /// <param name="WantedImageType"></param>
         /// <param name="displayCatalogModel"></param>
         /// <returns></returns>
-        public static Uri GetImageUri(DataContracts.ImagePurpose WantedImageType, DisplayCatalogModel displayCatalogModel)
+        public static Uri GetImageUri(ImagePurpose WantedImageType, DisplayCatalogModel displayCatalogModel)
         {
             foreach (StoreLib.Models.Image image in displayCatalogModel.Product.LocalizedProperties[0].Images)
             {
                 Uri imageUri;
-                if (image.ImagePurpose == Enum.GetName(typeof(DataContracts.ImagePurpose), WantedImageType))
+                if (image.ImagePurpose == Enum.GetName(typeof(ImagePurpose), WantedImageType))
                 {
                     if (image.Uri.StartsWith("//")) //For whatever reason, uris for images from UWP listings will start with "//", i.e //store-images.s-microsoft.com. Checking for that and adding http: to the beginning if they do to create a valid url. 
                     {

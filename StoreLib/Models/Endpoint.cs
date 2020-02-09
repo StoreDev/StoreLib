@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StoreLib.DataContracts
+namespace StoreLib.Models
 {
     public enum DCatEndpoint //Xbox, Production and Int are accessible on the publicly. I assume Dev is Corpnet only.
     {

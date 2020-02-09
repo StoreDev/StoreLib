@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace StoreLib.DataContracts
+namespace StoreLib.Services
 {
     public class Locale
     {

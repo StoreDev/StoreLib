@@ -16,7 +16,7 @@ namespace StoreLib.Tests
         [TestMethod, Timeout(20000)]
         public async Task GetPackagesForNetflix()
         {
-            DisplayCatalogHandler displayCatalog = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
+            DisplayCatalogHandler displayCatalog = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
             await displayCatalog.QueryDCATAsync("9wzdncrfj3tj");
             if (displayCatalog.IsFound)
             {

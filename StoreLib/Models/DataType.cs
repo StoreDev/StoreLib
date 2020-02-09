@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StoreLib.DataContracts
+namespace StoreLib.Models
 {
     public enum IdentiferType
     {

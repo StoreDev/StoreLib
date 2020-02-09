@@ -1,9 +1,8 @@
-﻿using StoreLib.DataContracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
-
+using StoreLib.Models;
 
 namespace StoreLib.Utilities
 {
@@ -82,7 +81,7 @@ namespace StoreLib.Utilities
         /// <param name="IDType"></param>
         /// <param name="locale"></param>
         /// <returns></returns>
-        public static Uri CreateAlternateDCatUri(DCatEndpoint endpoint, string ID, IdentiferType IDType, Locale locale)
+        public static Uri CreateAlternateDCatUri(DCatEndpoint endpoint, string ID, IdentiferType IDType, Services.Locale locale)
         {
             switch (IDType)
             {
