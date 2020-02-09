@@ -6,7 +6,7 @@ Storelib is a DotNet core library that provides APIs to interact with the variou
 
 First, you must initialize the DisplayCatalogHandler with the settings of your choice. During which, the handler can be set to use any market, locale, or endpoint.
 ```csharp
-DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DataContracts.DCatEndpoint.Production, new DataContracts.Locale(DataContracts.Market.US, DataContracts.Lang.en, true));
+DisplayCatalogHandler dcathandler = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
 ```
 The above snippet will create a handler that queries the production endpoint, specifiying the US/English market.
 
