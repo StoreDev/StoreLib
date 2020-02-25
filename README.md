@@ -1,5 +1,5 @@
 # StoreLib
-Storelib is a DotNet core library that provides APIs to interact with the various Microsoft Store endpoints. 
+Storelib is a DotNet library that provides APIs to interact with the various Microsoft Store endpoints. 
 
 
 ## Usage:
