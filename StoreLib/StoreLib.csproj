@@ -1,20 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>TitleOS</Authors>
     <Company>N/A</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Storelib is a DotNet core library that provides APIs to interact with the various Microsoft Store endpoints.</Description>
+    <Description>Storelib is a DotNet library that provides APIs to interact with the various Microsoft Store endpoints.</Description>
     <Copyright>TitleOS</Copyright>
     <PackageProjectUrl>https://github.com/TitleOS/StoreLib</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TitleOS/StoreLib</RepositoryUrl>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
