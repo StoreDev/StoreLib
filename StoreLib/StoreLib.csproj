@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/TitleOS/StoreLib</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TitleOS/StoreLib</RepositoryUrl>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
@@ -18,7 +18,7 @@
     <None Remove="Xml\FE3FileUrl.xml" />
     <None Remove="Xml\GetCookie.xml" />
     <None Remove="Xml\WUIDRequest.xml" />
-    <None Include="..\..\..\..\Documents\license.txt">
+    <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
