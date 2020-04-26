@@ -27,7 +27,7 @@ namespace StoreLib.Tests
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
 
             Assert.True(dcathandler.IsFound);
-            Assert.Equal(dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle, "Netflix");
+            Assert.Equal("Netflix", dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace StoreLib.Tests
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
 
             Assert.True(dcathandler.IsFound);
-            Assert.Equal(dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle, "Netflix");
+            Assert.Equal("Netflix", dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle);
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace StoreLib.Tests
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
 
             Assert.True(dcathandler.IsFound);
-            Assert.Equal(dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle, "Netflix");
+            Assert.Equal("Netflix", dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle);
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace StoreLib.Tests
             await dcathandler.QueryDCATAsync("9wzdncrfj3tj");
 
             Assert.True(dcathandler.IsFound);
-            Assert.Equal(dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle, "Netflix");
+            Assert.Equal("Netflix", dcathandler.ProductListing.Product.LocalizedProperties[0].ProductTitle);
         }
 
         [Fact]
