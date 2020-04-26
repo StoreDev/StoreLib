@@ -65,8 +65,7 @@ namespace StoreLib.Utilities
 
         protected static int getCllSettingsAsInt(Settings setting)
         {
-            int asInt = Int32.Parse(setting.ToString());
-            return asInt;
+            return (int)setting;
         }
 
         private bool CanExtend()

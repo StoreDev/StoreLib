@@ -15,6 +15,8 @@ namespace StoreLib.Services
 {
     public static class FE3Handler
     {
+        private static readonly MSHttpClient _httpClient = new MSHttpClient();
+
         /// <summary>
         /// Returns raw xml containing various (Revision, Update, Package) IDs and info.
         /// </summary>
@@ -22,13 +24,12 @@ namespace StoreLib.Services
         /// <returns></returns>
         public static async Task<string> SyncUpdatesAsync(string WuCategoryID)
         {
-            MSHttpClient httpClient = new MSHttpClient();
             HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("WUIDRequest.xml"), await GetCookieAsync(), WuCategoryID), Encoding.UTF8, "application/soap+xml"); //Load in the Xml for this FE3 request and format it a cookie and the provided WuCategoryID.
             HttpRequestMessage httpRequest = new HttpRequestMessage();
             httpRequest.RequestUri = Endpoints.FE3Delivery;
             httpRequest.Content = httpContent;
             httpRequest.Method = HttpMethod.Post;
-            HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest,  new System.Threading.CancellationToken());
+            HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest,  new System.Threading.CancellationToken());
             string content = await httpResponse.Content.ReadAsStringAsync();
             content = HttpUtility.HtmlDecode(content);
             return content;
@@ -40,14 +41,13 @@ namespace StoreLib.Services
         /// <returns>Cookie extracted from returned XML</returns>
         public static async Task<String> GetCookieAsync() //Encrypted Cookie Data is needed for FE3 requests. It doesn't expire for a very long time but I still refresh it as the Store does. 
         {
-            MSHttpClient httpClient = new MSHttpClient();
             XmlDocument doc = new XmlDocument();
             HttpContent httpContent = new StringContent(GetResourceTextFile("GetCookie.xml"), Encoding.UTF8, "application/soap+xml");//Loading the request xml from a file to keep things nice and tidy.
             HttpRequestMessage httpRequest = new HttpRequestMessage();
             httpRequest.RequestUri = Endpoints.FE3Delivery;
             httpRequest.Content = httpContent;
             httpRequest.Method = HttpMethod.Post;
-            HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken()); 
+            HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken()); 
             doc.LoadXml(await httpResponse.Content.ReadAsStringAsync());
             XmlNodeList xmlNodeList = doc.GetElementsByTagName("EncryptedData");
             string cookie = xmlNodeList[0].InnerText;
@@ -84,7 +84,6 @@ namespace StoreLib.Services
         /// <returns>IList of App Package Download Uris</returns>
         public static async Task<IList<Uri>> GetFileUrlsAsync(IList<string> UpdateIDs, IList<string> RevisionIDs)
         {
-            MSHttpClient httpClient = new MSHttpClient();
             XmlDocument doc = new XmlDocument();
             IList<Uri> uris = new List<Uri>();
             foreach (string ID in UpdateIDs)
@@ -94,7 +93,7 @@ namespace StoreLib.Services
                 httpRequest.RequestUri = Endpoints.FE3DeliverySecured;
                 httpRequest.Content = httpContent;
                 httpRequest.Method = HttpMethod.Post;
-                HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken()); 
+                HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken()); 
                 doc.LoadXml(await httpResponse.Content.ReadAsStringAsync());
                 XmlNodeList XmlUrls = doc.GetElementsByTagName("FileLocation");
                 foreach (XmlNode node in XmlUrls)
