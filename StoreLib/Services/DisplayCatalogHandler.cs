@@ -148,9 +148,9 @@ namespace StoreLib.Services
             Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authentication", AuthenticationToken);
             //We need to build the request URL based on the requested EndPoint;
             httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
+            httpRequestMessage.Headers.TryAddWithoutValidation("Authentication", AuthenticationToken);
             try
             {
                 httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
@@ -190,9 +190,9 @@ namespace StoreLib.Services
             Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
-            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authentication", AuthenticationToken);
             //We need to build the request URL based on the requested EndPoint;
             httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
+            httpRequestMessage.Headers.TryAddWithoutValidation("Authentication", AuthenticationToken);
             try
             {
                 httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
