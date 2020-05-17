@@ -48,6 +48,21 @@ namespace StoreLib.Utilities
                     return Endpoints.DisplayCatalogSearch;
             }
         }
+
+        public static PackageType StringToPackageType(string raw)
+        {
+            switch (raw)
+            {
+                case "XAP":
+                    return PackageType.XAP;
+                case "AppX":
+                    return PackageType.AppX;
+                case "UAP":
+                    return PackageType.UAP;
+                default:
+                    return PackageType.Unknown;
+            }
+        }
     }
 
     internal static class HashHelpers //These are used for the image caching function. The input uri will be hashed and used as the downloaded image file name. 

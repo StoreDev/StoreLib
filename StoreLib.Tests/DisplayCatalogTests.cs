@@ -108,6 +108,7 @@ namespace StoreLib.Tests
             Assert.NotNull(imagetest);
         }
 
+        /*
         [Fact]
         public async Task GetFiles()
         {
@@ -119,5 +120,6 @@ namespace StoreLib.Tests
                 _output.WriteLine(download.ToString());
             }
         }
+        */
     }
 }
