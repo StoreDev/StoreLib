@@ -1,7 +1,9 @@
-﻿using StoreLib.Models;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using StoreLib.Models;
 using StoreLib.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +54,20 @@ namespace StoreLib.Tests
             IList<string> UpdateIDs = new List<string>();
             FE3Handler.ProcessUpdateIDs(xml, out RevisionIds, out PackageNames, out UpdateIDs);
             IList<Uri> FileUris = await FE3Handler.GetFileUrlsAsync(UpdateIDs, RevisionIds);
+        }
+
+        [Fact]
+        public async Task GetPackageInstancesForNetflix()
+        {
+            DisplayCatalogHandler handler = DisplayCatalogHandler.ProductionConfig();
+            await handler.QueryDCATAsync("9wzdncrfj3tj");
+            Debug.WriteLine("Running GetPackageInstancesForNetflix");
+            string WUID = "d8d75bb2-c5cd-44f2-8c26-c1d1ae5b13fa";
+            var packageinstances = await handler.GetPackagesForProductAsync();
+            foreach(var item in packageinstances)
+            {
+                Debug.WriteLine($"{item.PackageMoniker} : {item.PackageType} : {item.PackageUri}");
+            }
         }
 
         [Fact]

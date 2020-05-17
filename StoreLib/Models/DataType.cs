@@ -8,7 +8,8 @@ namespace StoreLib.Models
     {
         UAP,
         XAP,
-        AppX
+        AppX,
+        Unknown
     }
 
     public enum IdentiferType

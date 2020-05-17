@@ -2,6 +2,7 @@
 using StoreLib.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -33,6 +34,34 @@ namespace StoreLib.Services
             string content = await httpResponse.Content.ReadAsStringAsync();
             content = HttpUtility.HtmlDecode(content);
             return content;
+        }
+
+        public static async Task<IList<PackageInstance>> GetPackageInstancesAsync(string WuCategoryID)
+        {
+            IList<PackageInstance> PackageInstances = new List<PackageInstance>();
+            HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("WUIDRequest.xml"), await GetCookieAsync(), WuCategoryID), Encoding.UTF8, "application/soap+xml"); //Load in the Xml for this FE3 request and format it a cookie and the provided WuCategoryID.
+            HttpRequestMessage httpRequest = new HttpRequestMessage();
+            httpRequest.RequestUri = Endpoints.FE3Delivery;
+            httpRequest.Content = httpContent;
+            httpRequest.Method = HttpMethod.Post;
+            HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken());
+            string content = await httpResponse.Content.ReadAsStringAsync();
+            content = HttpUtility.HtmlDecode(content);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(content);
+            XmlNodeList nodes = doc.GetElementsByTagName("AppxMetadata");
+            foreach(XmlNode node in nodes)
+            {
+                if(node.Attributes.Count >= 3)
+                {
+                    PackageInstance package = new PackageInstance(node.Attributes.GetNamedItem("PackageMoniker").Value, new Uri("http://test.com"), Utilities.TypeHelpers.StringToPackageType(node.Attributes.GetNamedItem("PackageType").Value));
+                    PackageInstances.Add(package);
+                }
+               
+
+            }
+            return PackageInstances;
+
         }
 
         /// <summary>
