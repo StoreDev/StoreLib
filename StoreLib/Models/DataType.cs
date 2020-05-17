@@ -4,6 +4,13 @@ using System.Text;
 
 namespace StoreLib.Models
 {
+    public enum PackageType
+    {
+        UAP,
+        XAP,
+        AppX
+    }
+
     public enum IdentiferType
     {
         ProductID,
