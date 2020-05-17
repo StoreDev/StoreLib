@@ -10,6 +10,8 @@ namespace StoreLib.Services
 {
     public class DisplayCatalogHandler
     {
+        private readonly MSHttpClient _httpClient;
+
         public DisplayCatalogModel ProductListing { get; internal set; }
         public Exception Error { get; internal set; } 
         internal Uri ConstructedUri { get; set; }
@@ -24,6 +26,9 @@ namespace StoreLib.Services
 
         public DisplayCatalogHandler(DCatEndpoint SelectedEndpoint, Locale Locale)
         {
+            //Adds needed headers for MS related requests. See MS_httpClient.cs
+            this._httpClient = new MSHttpClient();
+
             this.SelectedEndpoint = SelectedEndpoint;
             this.SelectedLocale = Locale;
         }
@@ -59,14 +64,13 @@ namespace StoreLib.Services
             this.ID = ID;
             this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IdentiferType.ProductID, SelectedLocale);
             Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
-            MSHttpClient httpClient = new MSHttpClient(); //Adds needed headers for MS related requests. See MSHttpClient.cs
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
             //We need to build the request URL based on the requested EndPoint;httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
             httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
             try
             {
-                httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
             }
             catch (TaskCanceledException)
             {
@@ -101,14 +105,13 @@ namespace StoreLib.Services
             this.ID = ID;
             this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IDType, SelectedLocale);
             Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
-            MSHttpClient httpClient = new MSHttpClient(); //Adds needed headers for MS related requests. See MSHttpClient.cs
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
             //We need to build the request URL based on the requested EndPoint;httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
             httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
             try
             {
-                httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
             }
             catch (TaskCanceledException)
             {
@@ -143,15 +146,14 @@ namespace StoreLib.Services
             this.ID = ID;
             this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IdentiferType.ProductID, SelectedLocale);
             Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
-            MSHttpClient httpClient = new MSHttpClient(); //MSHttpClient extends System.Net.HttpClient to automaticly add a (needed) CorrelationVector to each request.
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authentication", AuthenticationToken);
             //We need to build the request URL based on the requested EndPoint;
             httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
+            httpRequestMessage.Headers.TryAddWithoutValidation("Authentication", AuthenticationToken);
             try
             {
-                httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
             }
             catch (TaskCanceledException)
             {
@@ -186,15 +188,14 @@ namespace StoreLib.Services
             this.ID = ID;
             this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IDType, SelectedLocale);
             Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
-            MSHttpClient httpClient = new MSHttpClient(); //MSHttpClient extends System.Net.HttpClient to automaticly add a (needed) CorrelationVector to each request.
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authentication", AuthenticationToken);
             //We need to build the request URL based on the requested EndPoint;
             httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
+            httpRequestMessage.Headers.TryAddWithoutValidation("Authentication", AuthenticationToken);
             try
             {
-                httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
             }
             catch (TaskCanceledException)
             {
@@ -224,46 +225,45 @@ namespace StoreLib.Services
         /// <returns>Instance of DCatSearch, containing the returned products.</returns>
         public async Task<DCatSearch> SearchDCATAsync(string Query, DeviceFamily deviceFamily)
         {
-            MSHttpClient httpClient = new MSHttpClient();
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
             switch (deviceFamily)
             {
                 case DeviceFamily.Desktop:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Desktop");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Xbox:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Xbox");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Universal:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Universal");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Mobile:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Mobile");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.HoloLens:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Holographic");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.IotCore:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Iot");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.ServerCore:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Server");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Andromeda:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.8828080");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.WCOS:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Core");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
             }
             if (httpResponse.IsSuccessStatusCode)
@@ -304,42 +304,41 @@ namespace StoreLib.Services
         /// <returns></returns>
         public async Task<DCatSearch> SearchDCATAsync(string Query, DeviceFamily DeviceFamily, int SkipCount)
         {
-            MSHttpClient httpClient = new MSHttpClient();
             HttpResponseMessage httpResponse = new HttpResponseMessage();
             HttpRequestMessage httpRequestMessage;
             switch (DeviceFamily)
             {
                 case DeviceFamily.Desktop:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Desktop");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Xbox:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Xbox");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Universal:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Universal");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Mobile:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Mobile");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.HoloLens:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Holographic");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.IotCore:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Iot");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.ServerCore:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.Server");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
                 case DeviceFamily.Andromeda:
                     httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"{Utilities.TypeHelpers.EnumToSearchUri(SelectedEndpoint)}{Query}&productFamilyNames=apps,games&platformDependencyName=Windows.8828080");
-                    httpResponse = await httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
+                    httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
                     break;
             }
             if (httpResponse.IsSuccessStatusCode)
