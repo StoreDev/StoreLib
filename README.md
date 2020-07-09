@@ -1,4 +1,4 @@
-# StoreLib ![.NET Core](https://github.com/TitleOS/StoreLib/workflows/.NET%20Core/badge.svg?branch=Public)
+# StoreLib ![.NET Core](https://github.com/TitleOS/StoreLib/workflows/.NET%20Core/badge.svg?branch=Public) [![HitCount](http://hits.dwyl.com/titleos/StoreLib.svg)](http://hits.dwyl.com/titleos/StoreLib)
 Storelib is a DotNet library that provides APIs to interact with the various Microsoft Store endpoints. 
 
 
