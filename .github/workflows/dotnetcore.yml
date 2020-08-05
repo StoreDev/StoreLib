@@ -1,4 +1,4 @@
-name: .NET Core
+name: build
 
 on:
   push:
@@ -23,3 +23,8 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Create tag and publish to nuget
+      id: publish_nuget
+      uses: rohith/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: StoreLib/StoreLib.csproj
