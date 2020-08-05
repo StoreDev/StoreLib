@@ -1,9 +1,10 @@
-# StoreLib
-
 [![GitHub stars](https://img.shields.io/github/stars/StoreDev/StoreLib?style=social)](https://github.com/StoreDev/StoreLib)
 [![GitHub Workflow - Build](https://img.shields.io/github/workflow/status/StoreDev/StoreLib/build?label=build)](https://github.com/StoreDev/StoreLib/actions?query=workflow%3Abuild)
 [![Nuget downloads](https://img.shields.io/nuget/dt/StoreLib)](https://www.nuget.org/packages/StoreLib)
 [![Nuget version](https://img.shields.io/nuget/v/StoreLib)](https://www.nuget.org/packages/StoreLib)
+
+# StoreLib
+
 Storelib is a DotNet library that provides APIs to interact with the various Microsoft Store endpoints.
 
 ## Usage
