@@ -24,7 +24,9 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Create tag and publish to nuget
+      if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
       id: publish_nuget
       uses: rohith/publish-nuget@v2
       with:
         PROJECT_FILE_PATH: StoreLib/StoreLib.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
