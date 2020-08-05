@@ -1,11 +1,8 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using StoreLib.Models;
+﻿using StoreLib.Models;
 using StoreLib.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -20,7 +17,7 @@ namespace StoreLib.Tests
             _output = output;
         }
 
-        [Fact(Timeout=20000)]
+        [Fact(Timeout = 20000)]
         public async Task GetPackagesForNetflix()
         {
             DisplayCatalogHandler displayCatalog = new DisplayCatalogHandler(DCatEndpoint.Production, new Locale(Market.US, Lang.en, true));
@@ -40,7 +37,7 @@ namespace StoreLib.Tests
             }
         }
 
-        [Fact(Timeout=20000)]
+        [Fact(Timeout = 20000)]
         public async Task GetPackagesAndNamesForNetflix()
         {
             DisplayCatalogHandler displayCatalog = DisplayCatalogHandler.ProductionConfig();
@@ -64,7 +61,7 @@ namespace StoreLib.Tests
             Debug.WriteLine("Running GetPackageInstancesForNetflix");
             string WUID = "d8d75bb2-c5cd-44f2-8c26-c1d1ae5b13fa";
             var packageinstances = await handler.GetPackagesForProductAsync();
-            foreach(var item in packageinstances)
+            foreach (var item in packageinstances)
             {
                 Debug.WriteLine($"{item.PackageMoniker} : {item.PackageType} : {item.PackageUri}");
             }
