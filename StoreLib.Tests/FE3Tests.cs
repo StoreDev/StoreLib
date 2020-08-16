@@ -63,7 +63,7 @@ namespace StoreLib.Tests
             var packageinstances = await handler.GetPackagesForProductAsync();
             foreach (var item in packageinstances)
             {
-                Debug.WriteLine($"{item.PackageMoniker} : {item.PackageType} : {item.PackageUri}");
+                Debug.WriteLine($"{item.PackageMoniker} : {item.PackageType} : {item.PackageUri} : {item.PackageSizeInBytes}");
             }
         }
 

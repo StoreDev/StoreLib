@@ -11,12 +11,14 @@ namespace StoreLib.Models
         public string PackageMoniker;
         public Uri PackageUri;
         public PackageType PackageType;
+        public long PackageSizeInBytes;
 
-        public PackageInstance(string PackageMoniker, Uri PackageUri, PackageType packageType)
+        public PackageInstance(string PackageMoniker, Uri PackageUri, PackageType packageType, long PackageSize)
         {
             this.PackageMoniker = PackageMoniker;
             this.PackageUri = PackageUri;
             this.PackageType = packageType;
+            this.PackageSizeInBytes = PackageSize;
         }
 
         

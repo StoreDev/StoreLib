@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -50,15 +51,22 @@ namespace StoreLib.Services
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
             XmlNodeList nodes = doc.GetElementsByTagName("AppxMetadata");
+            XmlNodeList ExtendedProperiesNodes = doc.GetElementsByTagName("ExtendedProperties");
+            int count = 0;
             foreach(XmlNode node in nodes)
             {
                 if(node.Attributes.Count >= 3)
                 {
-                    PackageInstance package = new PackageInstance(node.Attributes.GetNamedItem("PackageMoniker").Value, new Uri("http://test.com"), Utilities.TypeHelpers.StringToPackageType(node.Attributes.GetNamedItem("PackageType").Value));
+                    PackageInstance package = new PackageInstance(node.Attributes.GetNamedItem("PackageMoniker").Value, new Uri("http://test.com"), Utilities.TypeHelpers.StringToPackageType(node.Attributes.GetNamedItem("PackageType").Value), 0);
+                    XmlNode propnode = ExtendedProperiesNodes[count];
+                    if (propnode.Attributes.GetNamedItem("MaxDownloadSize") != null)
+                    {
+                        long DownloadSize = Int64.Parse(propnode.Attributes.GetNamedItem("MaxDownloadSize").Value);
+                        package.PackageSizeInBytes = DownloadSize;
+                    }
+                    count++;
                     PackageInstances.Add(package);
                 }
-               
-
             }
             return PackageInstances;
 
