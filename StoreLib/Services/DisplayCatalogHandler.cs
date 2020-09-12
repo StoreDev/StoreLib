@@ -58,137 +58,16 @@ namespace StoreLib.Services
             }
             return PackageInstances;
         }
- 
-        /// <summary>
-        /// Queries DisplayCatalog for the provided ProductID. The resulting possibly found product is reflected in DisplayCatalogHandlerInstance.ProductListing. If the product isn't found, that variable will be null, check IsFound and Result.
-        /// </summary>
-        /// <param name="ID">Product</param>
-        /// <returns></returns>
-        public async Task QueryDCATAsync(string ID)
-        {
-            this.ID = ID;
-            this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IdentiferType.ProductID, SelectedLocale);
-            Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
-            HttpResponseMessage httpResponse = new HttpResponseMessage();
-            HttpRequestMessage httpRequestMessage;
-            //We need to build the request URL based on the requested EndPoint;httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
-            httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
-            try
-            {
-                httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
-            }
-            catch (TaskCanceledException)
-            {
-                Result = DisplayCatalogResult.TimedOut;
-            }
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                string content = await httpResponse.Content.ReadAsStringAsync();
-                Result = DisplayCatalogResult.Found;
-                IsFound = true;
-                ProductListing = DisplayCatalogModel.FromJson(content);
-            }
-            else if (httpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                Result = DisplayCatalogResult.NotFound;
-            }
-            else
-            {
-                throw new Exception($"Failed to query DisplayCatalog Endpoint: {SelectedEndpoint.ToString()} Status Code: {httpResponse.StatusCode} Returned Data: {await httpResponse.Content.ReadAsStringAsync()}");
-            }
-
-        }
 
         /// <summary>
         /// Queries DisplayCatalog for the provided ID. The resulting possibly found product is reflected in DisplayCatalogHandlerInstance.ProductListing. If the product isn't found, that variable will be null, check IsFound and Result.
+        /// The provided Auth Token is also sent allowing for flighted or sandboxed listings. The resulting possibly found product is reflected in DisplayCatalogHandlerInstance.ProductListing. If the product isn't found, that variable will be null, check IsFound and Res
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="ID">The ID, type specified in DCatHandler Instance.</param>
         /// <param name="IDType">Type of ID being passed.</param>
-        /// <returns></returns>
-        public async Task QueryDCATAsync(string ID, IdentiferType IDType)
-        {
-            this.ID = ID;
-            this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IDType, SelectedLocale);
-            Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
-            HttpResponseMessage httpResponse = new HttpResponseMessage();
-            HttpRequestMessage httpRequestMessage;
-            //We need to build the request URL based on the requested EndPoint;httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
-            httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
-            try
-            {
-                httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
-            }
-            catch (TaskCanceledException)
-            {
-                Result = DisplayCatalogResult.TimedOut;
-            }
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                string content = await httpResponse.Content.ReadAsStringAsync();
-                Result = DisplayCatalogResult.Found;
-                IsFound = true;
-                ProductListing = DisplayCatalogModel.FromJson(content);
-            }
-            else if (httpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                Result = DisplayCatalogResult.NotFound;
-            }
-            else
-            {
-                throw new Exception($"Failed to query DisplayCatalog Endpoint: {SelectedEndpoint.ToString()} Status Code: {httpResponse.StatusCode} Returned Data: {await httpResponse.Content.ReadAsStringAsync()}");
-            }
-
-        }
-
-        /// <summary>
-        /// Queries DisplayCatalog for the provided ID. The provided Auth Token is also sent allowing for flighted or sandboxed listings. The resulting possibly found product is reflected in DisplayCatalogHandlerInstance.ProductListing. If the product isn't found, that variable will be null, check IsFound and Res
-        /// </summary>
-        /// <param name="ID">The ID, type specified in DCatHandler Instance.</param>
         /// <param name="AuthenticationToken"></param>
         /// <returns></returns>
-        public async Task QueryDCATAsync(string ID, string AuthenticationToken) //Optional Authentication Token used for Sandbox and Flighting Queries.
-        {
-            this.ID = ID;
-            this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IdentiferType.ProductID, SelectedLocale);
-            Result = new DisplayCatalogResult(); //We need to clear the result incase someone queries a product, then queries a not found one, the wrong product will be returned.
-            HttpResponseMessage httpResponse = new HttpResponseMessage();
-            HttpRequestMessage httpRequestMessage;
-            //We need to build the request URL based on the requested EndPoint;
-            httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
-            httpRequestMessage.Headers.TryAddWithoutValidation("Authentication", AuthenticationToken);
-            try
-            {
-                httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
-            }
-            catch (TaskCanceledException)
-            {
-                Result = DisplayCatalogResult.TimedOut;
-            }
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                string content = await httpResponse.Content.ReadAsStringAsync();
-                Result = DisplayCatalogResult.Found;
-                IsFound = true;
-                ProductListing = DisplayCatalogModel.FromJson(content);
-            }
-            else if (httpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                Result = DisplayCatalogResult.NotFound;
-            }
-            else
-            {
-                throw new Exception($"Failed to query DisplayCatalog Endpoint: {SelectedEndpoint.ToString()} Status Code: {httpResponse.StatusCode} Returned Data: {await httpResponse.Content.ReadAsStringAsync()}");
-            }
-        }
-
-        /// <summary>
-        /// Queries DisplayCatalog for the provided ID. The provided Auth Token is also sent allowing for flighted or sandboxed listings. The resulting possibly found product is reflected in DisplayCatalogHandlerInstance.ProductListing. If the product isn't found, that variable will be null, check IsFound and Res
-        /// </summary>
-        /// <param name="ID">The ID, type specified in DCatHandler Instance.</param>
-        /// <param name="AuthenticationToken"></param>
-        ///<param name="IDType">Type of ID being passed.</param>
-        /// <returns></returns>
-        public async Task QueryDCATAsync(string ID, IdentiferType IDType, string AuthenticationToken) //Optional Authentication Token used for Sandbox and Flighting Queries.
+        public async Task QueryDCATAsync(string ID, IdentiferType IDType = IdentiferType.ProductID, string AuthenticationToken = null) //Optional Authentication Token used for Sandbox and Flighting Queries.
         {
             this.ID = ID;
             this.ConstructedUri = Utilities.UriHelpers.CreateAlternateDCatUri(SelectedEndpoint, ID, IDType, SelectedLocale);
@@ -197,7 +76,12 @@ namespace StoreLib.Services
             HttpRequestMessage httpRequestMessage;
             //We need to build the request URL based on the requested EndPoint;
             httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructedUri);
-            httpRequestMessage.Headers.TryAddWithoutValidation("Authentication", AuthenticationToken);
+
+            if (!String.IsNullOrEmpty(AuthenticationToken))
+            {
+                httpRequestMessage.Headers.TryAddWithoutValidation("Authentication", AuthenticationToken);
+            }
+
             try
             {
                 httpResponse = await _httpClient.SendAsync(httpRequestMessage, new System.Threading.CancellationToken());
@@ -222,6 +106,7 @@ namespace StoreLib.Services
                 throw new Exception($"Failed to query DisplayCatalog Endpoint: {SelectedEndpoint.ToString()} Status Code: {httpResponse.StatusCode} Returned Data: {await httpResponse.Content.ReadAsStringAsync()}");
             }
         }
+
         /// <summary>
         ///  
         /// </summary>
