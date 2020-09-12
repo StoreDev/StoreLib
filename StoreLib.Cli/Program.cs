@@ -51,7 +51,11 @@ namespace StoreLib.Cli
         static void Main(string[] args)
         {
             var parser = new Parser(
-                with => with.CaseInsensitiveEnumValues = true
+                with => {
+                    with.HelpWriter = Console.Error;
+                    with.AutoHelp = true;
+                    with.CaseInsensitiveEnumValues = true;
+                }
             );
             parser.ParseArguments<Options>(args)
                 .WithParsed(Run)
