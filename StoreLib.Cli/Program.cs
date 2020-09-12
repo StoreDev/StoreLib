@@ -12,10 +12,10 @@ namespace StoreLib.Cli
 
     enum Commands
     {
-        packages,
-        query,
-        search,
-        convert
+        Packages,
+        Query,
+        Search,
+        Convert
     }
 
     class Options
@@ -50,8 +50,10 @@ namespace StoreLib.Cli
     {
         static void Main(string[] args)
         {
-
-            CommandLine.Parser.Default.ParseArguments<Options>(args)
+            var parser = new Parser(
+                with => with.CaseInsensitiveEnumValues = true
+            );
+            parser.ParseArguments<Options>(args)
                 .WithParsed(Run)
                 .WithNotParsed(HandleErrors);
         }
@@ -77,28 +79,28 @@ namespace StoreLib.Cli
 
             switch (opts.Command)
             {
-                case Commands.packages:
+                case Commands.Packages:
                     Console.WriteLine("* PACKAGES");
                     CommandHandler
                         .PackagesAsync(dcatHandler, opts.IdOrSearchQuery, opts.IdType)
                         .GetAwaiter()
                         .GetResult();
                     break;
-                case Commands.query:
+                case Commands.Query:
                     Console.WriteLine("* QUERY");
                     CommandHandler
                         .AdvancedQueryAsync(dcatHandler, opts.IdOrSearchQuery, opts.IdType)
                         .GetAwaiter()
                         .GetResult();
                     break;
-                case Commands.search:
+                case Commands.Search:
                     Console.WriteLine("* SEARCH");
                     CommandHandler
                         .SearchAsync(dcatHandler, opts.IdOrSearchQuery, opts.DeviceFamily)
                         .GetAwaiter()
                         .GetResult();
                     break;
-                case Commands.convert:
+                case Commands.Convert:
                     Console.WriteLine("* CONVERT");
                     CommandHandler
                         .ConvertId(dcatHandler, opts.IdOrSearchQuery, opts.IdType)
