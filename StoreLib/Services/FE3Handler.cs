@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using System.Net;
 using System.Xml;
 
 
@@ -32,7 +32,7 @@ namespace StoreLib.Services
             httpRequest.Method = HttpMethod.Post;
             HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest,  new System.Threading.CancellationToken());
             string content = await httpResponse.Content.ReadAsStringAsync();
-            content = HttpUtility.HtmlDecode(content);
+            content = WebUtility.HtmlDecode(content);
             return content;
         }
 
@@ -46,7 +46,7 @@ namespace StoreLib.Services
             httpRequest.Method = HttpMethod.Post;
             HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken());
             string content = await httpResponse.Content.ReadAsStringAsync();
-            content = HttpUtility.HtmlDecode(content);
+            content = WebUtility.HtmlDecode(content);
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
             XmlNodeList nodes = doc.GetElementsByTagName("AppxMetadata");
@@ -151,7 +151,7 @@ namespace StoreLib.Services
         {
             string result = string.Empty;
 
-            using (Stream stream = Assembly.GetExecutingAssembly().
+            using (Stream stream = typeof(FE3Handler).GetTypeInfo().Assembly.
                        GetManifestResourceStream("StoreLib.Xml." + filename))
             {
                 using (StreamReader sr = new StreamReader(stream))
