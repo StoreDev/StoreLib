@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 
@@ -23,7 +24,19 @@ namespace StoreLib.Services
             else { this.DCatTrail = $"market={MarketAsString}&languages={LanguageAsString}-{MarketAsString},{LanguageAsString}"; }
         }
 
+        public Locale(CultureInfo culture, bool IncludeNeutral)
+        {
+            string[] parts = culture.Name.Split('-');
+            Enum.TryParse(culture.TwoLetterISOLanguageName, out Lang lang);
+            Enum.TryParse(parts[1], out Market market);
 
+            this.Market = market;
+            this.Language = lang;
+            this.MarketAsString = market.ToString();
+            this.LanguageAsString = lang.ToString();
+            if (IncludeNeutral) { this.DCatTrail = $"market={MarketAsString}&languages={culture.Name},{LanguageAsString},neutral"; }
+            else { this.DCatTrail = $"market={MarketAsString}&languages={culture.Name},{LanguageAsString}"; }
+        }
     }
 
     public enum Market
