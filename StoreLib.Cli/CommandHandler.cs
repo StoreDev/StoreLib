@@ -107,7 +107,7 @@ namespace StoreLib.Cli
             if (props.Packages.Count == 0 ||
                 props.Packages[0].PackageDownloadUris == null)
             {
-                Console.WriteLine("Packages.Count == 0");
+                return;
             }
 
             foreach (var Package in props.Packages[0].PackageDownloadUris)
