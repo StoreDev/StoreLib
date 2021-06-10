@@ -24,9 +24,9 @@ namespace StoreLib.Services
         /// </summary>
         /// <param name="WuCategoryID"></param>
         /// <returns></returns>
-        public static async Task<string> SyncUpdatesAsync(string WuCategoryID)
+        public static async Task<string> SyncUpdatesAsync(string WuCategoryID, string MSAToken)
         {
-            HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("WUIDRequest.xml"), await GetCookieAsync(), WuCategoryID, _msaToken), Encoding.UTF8, "application/soap+xml"); //Load in the Xml for this FE3 request and format it a cookie and the provided WuCategoryID.
+            HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("WUIDRequest.xml"), await GetCookieAsync(), WuCategoryID, MSAToken ?? _msaToken), Encoding.UTF8, "application/soap+xml"); //Load in the Xml for this FE3 request and format it a cookie and the provided WuCategoryID.
             HttpRequestMessage httpRequest = new HttpRequestMessage();
             httpRequest.RequestUri = Endpoints.FE3Delivery;
             httpRequest.Content = httpContent;
@@ -58,8 +58,6 @@ namespace StoreLib.Services
                     PackageInstance package = new PackageInstance(node.Attributes.GetNamedItem("PackageMoniker").Value, new Uri("http://test.com"), Utilities.TypeHelpers.StringToPackageType(node.Attributes.GetNamedItem("PackageType").Value));
                     PackageInstances.Add(package);
                 }
-               
-
             }
             return PackageInstances;
 
@@ -112,13 +110,13 @@ namespace StoreLib.Services
         /// <param name="UpdateIDs"></param>
         /// <param name="RevisionIDs"></param>
         /// <returns>IList of App Package Download Uris</returns>
-        public static async Task<IList<Uri>> GetFileUrlsAsync(IList<string> UpdateIDs, IList<string> RevisionIDs)
+        public static async Task<IList<Uri>> GetFileUrlsAsync(IList<string> UpdateIDs, IList<string> RevisionIDs, string MSAToken)
         {
             XmlDocument doc = new XmlDocument();
             IList<Uri> uris = new List<Uri>();
             foreach (string ID in UpdateIDs)
             {
-                HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("FE3FileUrl.xml"), ID, RevisionIDs[UpdateIDs.IndexOf(ID)]), Encoding.UTF8, "application/soap+xml");//Loading the request xml from a file to keep things nice and tidy.
+                HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("FE3FileUrl.xml"), ID, RevisionIDs[UpdateIDs.IndexOf(ID)], MSAToken ?? _msaToken), Encoding.UTF8, "application/soap+xml");//Loading the request xml from a file to keep things nice and tidy.
                 HttpRequestMessage httpRequest = new HttpRequestMessage();
                 httpRequest.RequestUri = Endpoints.FE3DeliverySecured;
                 httpRequest.Content = httpContent;
