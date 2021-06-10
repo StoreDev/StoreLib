@@ -56,7 +56,7 @@ namespace StoreLib.Services
             {
                 if(node.Attributes.Count >= 3)
                 {
-                    PackageInstance package = new PackageInstance(node.Attributes.GetNamedItem("PackageMoniker").Value, new Uri("http://test.com"), Utilities.TypeHelpers.StringToPackageType(node.Attributes.GetNamedItem("PackageType").Value), JsonConvert.DeserializeObject<ApplicabilityBlob>(node.FirstChild.InnerText));
+                    PackageInstance package = new PackageInstance(node.Attributes.GetNamedItem("PackageMoniker").Value, new Uri("http://test.com"), Utilities.TypeHelpers.StringToPackageType(node.Attributes.GetNamedItem("PackageType").Value), JsonConvert.DeserializeObject<ApplicabilityBlob>(node.FirstChild.InnerText), "");
                     PackageInstances.Add(package);
                 }
             }

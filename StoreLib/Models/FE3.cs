@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Xml.XPath;
 using Newtonsoft.Json;
 
 namespace StoreLib.Models
@@ -13,13 +10,15 @@ namespace StoreLib.Models
         public Uri PackageUri;
         public PackageType PackageType;
         public ApplicabilityBlob ApplicabilityBlob;
+        public String UpdateId;
 
-        public PackageInstance(string PackageMoniker, Uri PackageUri, PackageType PackageType, ApplicabilityBlob ApplicabilityBlob)
+        public PackageInstance(string PackageMoniker, Uri PackageUri, PackageType PackageType, ApplicabilityBlob ApplicabilityBlob, String UpdateId)
         {
             this.PackageMoniker = PackageMoniker;
             this.PackageUri = PackageUri;
             this.PackageType = PackageType;
             this.ApplicabilityBlob = ApplicabilityBlob;
+            this.UpdateId = UpdateId;
         }
     }
 

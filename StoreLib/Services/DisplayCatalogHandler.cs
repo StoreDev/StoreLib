@@ -54,7 +54,9 @@ namespace StoreLib.Services
             IList<Uri> Files = await FE3Handler.GetFileUrlsAsync(UpdateIDs, RevisionIDs, MSAToken);
             foreach(PackageInstance package in PackageInstances)
             {
-                package.PackageUri = Files[PackageInstances.IndexOf(package)];
+                int id = PackageInstances.IndexOf(package);
+                package.PackageUri = Files[id];
+                package.UpdateId = UpdateIDs[id];
             }
             return PackageInstances;
         }
