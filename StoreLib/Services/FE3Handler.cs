@@ -40,7 +40,6 @@ namespace StoreLib.Services
 
         public static async Task<IList<PackageInstance>> GetPackageInstancesAsync(string WuCategoryID, string MSAToken)
         {
-            IList<PackageInstance> PackageInstances = new List<PackageInstance>();
             HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("WUIDRequest.xml"), await GetCookieAsync(), WuCategoryID, MSAToken ?? _msaToken), Encoding.UTF8, "application/soap+xml"); //Load in the Xml for this FE3 request and format it a cookie and the provided WuCategoryID.
             HttpRequestMessage httpRequest = new HttpRequestMessage();
             httpRequest.RequestUri = Endpoints.FE3Delivery;
@@ -49,6 +48,12 @@ namespace StoreLib.Services
             HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest, new System.Threading.CancellationToken());
             string content = await httpResponse.Content.ReadAsStringAsync();
             content = HttpUtility.HtmlDecode(content);
+            return await GetPackageInstancesAsync(content);
+        }
+
+        public static async Task<IList<PackageInstance>> GetPackageInstancesAsync(string content)
+        {
+            IList<PackageInstance> PackageInstances = new List<PackageInstance>();
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
             XmlNodeList nodes = doc.GetElementsByTagName("AppxMetadata");

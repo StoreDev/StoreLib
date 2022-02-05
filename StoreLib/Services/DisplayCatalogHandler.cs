@@ -50,7 +50,7 @@ namespace StoreLib.Services
             IList<string> PackageNames;
             IList<string> UpdateIDs;
             FE3Handler.ProcessUpdateIDs(xml, out RevisionIDs, out PackageNames, out UpdateIDs);
-            IList<PackageInstance> PackageInstances = await FE3Handler.GetPackageInstancesAsync(ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData.WuCategoryId, MSAToken);
+            IList<PackageInstance> PackageInstances = await FE3Handler.GetPackageInstancesAsync(xml);
             IList<Uri> Files = await FE3Handler.GetFileUrlsAsync(UpdateIDs, RevisionIDs, MSAToken);
             foreach(PackageInstance package in PackageInstances)
             {
