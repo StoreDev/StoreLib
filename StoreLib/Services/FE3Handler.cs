@@ -25,7 +25,7 @@ namespace StoreLib.Services
         /// </summary>
         /// <param name="WuCategoryID"></param>
         /// <returns></returns>
-        public static async Task<string> SyncUpdatesAsync(string WuCategoryID, string MSAToken)
+        public static async Task<string> SyncUpdatesAsync(string WuCategoryID, string MSAToken = null)
         {
             HttpContent httpContent = new StringContent(String.Format(GetResourceTextFile("WUIDRequest.xml"), await GetCookieAsync(), WuCategoryID, MSAToken ?? _msaToken), Encoding.UTF8, "application/soap+xml"); //Load in the Xml for this FE3 request and format it a cookie and the provided WuCategoryID.
             HttpRequestMessage httpRequest = new HttpRequestMessage();
@@ -116,7 +116,7 @@ namespace StoreLib.Services
         /// <param name="UpdateIDs"></param>
         /// <param name="RevisionIDs"></param>
         /// <returns>IList of App Package Download Uris</returns>
-        public static async Task<IList<Uri>> GetFileUrlsAsync(IList<string> UpdateIDs, IList<string> RevisionIDs, string MSAToken)
+        public static async Task<IList<Uri>> GetFileUrlsAsync(IList<string> UpdateIDs, IList<string> RevisionIDs, string MSAToken = null)
         {
             XmlDocument doc = new XmlDocument();
             IList<Uri> uris = new List<Uri>();
