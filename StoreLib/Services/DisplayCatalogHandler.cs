@@ -43,18 +43,20 @@ namespace StoreLib.Services
         /// Returns an IList of Uris containing the direct download links for the product's apps and dependacies. (if it has any). 
         /// </summary>
         /// <returns>IList of Direct File URLs</returns>
-        public async Task<IList<PackageInstance>> GetPackagesForProductAsync()
+        public async Task<IList<PackageInstance>> GetPackagesForProductAsync(string MSAToken = null)
         {
-            string xml = await FE3Handler.SyncUpdatesAsync(ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData.WuCategoryId);
+            string xml = await FE3Handler.SyncUpdatesAsync(ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData.WuCategoryId, MSAToken);
             IList<string> RevisionIDs;
             IList<string> PackageNames;
             IList<string> UpdateIDs;
             FE3Handler.ProcessUpdateIDs(xml, out RevisionIDs, out PackageNames, out UpdateIDs);
-            IList<PackageInstance> PackageInstances = await FE3Handler.GetPackageInstancesAsync(ProductListing.Product.DisplaySkuAvailabilities[0].Sku.Properties.FulfillmentData.WuCategoryId);
-            IList<Uri> Files = await FE3Handler.GetFileUrlsAsync(UpdateIDs, RevisionIDs);
+            IList<PackageInstance> PackageInstances = await FE3Handler.GetPackageInstancesAsync(xml);
+            IList<Uri> Files = await FE3Handler.GetFileUrlsAsync(UpdateIDs, RevisionIDs, MSAToken);
             foreach(PackageInstance package in PackageInstances)
             {
-                package.PackageUri = Files[PackageInstances.IndexOf(package)];
+                int id = PackageInstances.IndexOf(package);
+                package.PackageUri = Files[id];
+                package.UpdateId = UpdateIDs[id];
             }
             return PackageInstances;
         }
