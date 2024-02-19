@@ -86,7 +86,7 @@ namespace StoreLib.Cli
             var product = dcatHandler.ProductListing.Products[0];
             var props = product.DisplaySkuAvailabilities[0].Sku.Properties;
             var header = $"{product.LocalizedProperties[0].ProductTitle} - {product.LocalizedProperties[0].PublisherName}";
-
+            dcatHandler.ProductListing.Product = product;
 
             Console.WriteLine($"Processing {header}");
 
